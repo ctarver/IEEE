@@ -9,7 +9,7 @@ jobs:
       - name: Compile paper-conference.tex
         uses: dante-ev/latex-action@master
         with:
-          root_file: paper-conference.tex
+          root_file: main.tex
           compiler: pdflatex
       - name: Upload
         uses: actions/upload-artifact@v2
