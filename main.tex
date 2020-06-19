@@ -15,12 +15,21 @@
 % use nicer font for code
 \usepackage[zerostyle=b,scaled=.75]{newtxtt}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, dsp, chains}
+\def\layersep{1.5cm}
+
 % for demonstration purposes
 \usepackage{mwe}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc} %support umlauts in the input
 
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\renewcommand{\algorithmiccomment}[1]{\bgroup\hfill//~#1\egroup}
 \usepackage{graphicx}
 
 %Set English as language and allow to write hyphenated"=words
@@ -70,10 +79,17 @@
 % Slashbox is not available in texlive (due to licensing) and also gives bad results. This, we use diagbox
 %\usepackage{diagbox}
 
+%https://people.inf.ethz.ch/markusp/teaching/guides/guide-tables.pdf
 \usepackage{booktabs}
+\renewcommand{\arraystretch}{1.2} % More space between rows
 
 % Required for package pdfcomment later
 \usepackage{xcolor}
+
+\usepackage[nolist]{acronym}
+\makeatletter
+\renewcommand{\ALG@name}{Kernel}
+\makeatother
 
 % For listings
 \usepackage{listings}
@@ -191,25 +207,33 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 
-
+% Make some colors that we want to use throughout paper
+\definecolor{nn}{RGB}{35,139,69}
+\definecolor{m2}{RGB}{254,178,76} 
+\definecolor{m1}{RGB}{254,217,118} 
+\definecolor{nn2}{RGB}{34,94,168} 
+\definecolor{m4}{RGB}{252,197,192}
+\definecolor{m4pq}{RGB}{228,26,28} 
 
 \begin{document}
 %\IEEEoverridecommandlockouts
 
 \title{Quick start for LaTeXing with IEEEtran.cls for\\ IEEE Conferences}
 
-\author{%
-  \IEEEauthorblockN{Oliver Kopp}
-  \IEEEauthorblockA{University of Stuttgart, Germany\\
-    \{lastname\}@ipvs.uni-stuttgart.de}
-  \and
-  \IEEEauthorblockN{Michael Shell}
-  \IEEEauthorblockA{School of Electrical and\\Computer Engineering\\
-    Georgia Institute of Technology\\
-    Atlanta, Georgia 30332--0250\\
-    \url{http://www.michaelshell.org/contact.html}}
+\author{\IEEEauthorblockN{Chance Tarver\IEEEauthorrefmark{1},
+		Arav Singhal\IEEEauthorrefmark{2},
+		and
+		Joseph R. Cavallaro\IEEEauthorrefmark{2}}
+	\IEEEauthorblockA{\IEEEauthorrefmark{1}\IEEEauthorrefmark{2}Department of Electrical and Computer Engineering,
+		Rice University, 
+		Houston, TX, USA\\}
+	\IEEEauthorblockA{\IEEEauthorrefmark{1}Standard and Mobility Innovation Lab, 
+		Samsung Research America,
+		Plano, TX, USA}		
+	
 }
 
 % use for special paper notices
@@ -260,7 +284,7 @@
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
+\input{acronyms.tex}
 
 \section{Introduction}
 \label{sec:intro}
@@ -272,11 +296,19 @@ It is followed by a presentation of hints on \LaTeX{} (\cref{sec:hints}).
 Based on that, we present some Lorem Ipsum (\cref{sec:loremipsum}).
 Finally, a conclusion is drawn and outlook on future work is made (\cref{sec:outlook}).
 
+\begin{align}
+\label{eq:mp}
+\hat{x}^{(i)}(n) = \sum_{p = 1}^{P} \sum_{m = 0}^{M} \beta^{(i)}_{p,m} x^{(i)}(n-m) \left| x^{(i)}(n-m) \right|^{p-1},
+\end{align}
+
+There is an equation in \eqref{eq:mp}.
+
+
 \section{Related Work}
 \label{sec:relatedwork}
 
-Winery~\cite{Winery} is a graphical \commentontext{modeling}{modeling with one \enquote{l}, because of AE} tool.
-The whole idea of TOSCA is explained by \citet{Binz2009}.
+Winery~\cite{2019_mikkogpu} is a graphical \commentontext{modeling}{modeling with one \enquote{l}, because of AE} tool.
+The whole idea of TOSCA is explained by \citet{memory_polynomial}.
 
 \blindtext[5]
 
@@ -315,7 +347,7 @@ public class Hello {
 
 \begin{figure}
   \includegraphics[width=.5\textwidth]{example-grid-100x100bp}
-  \caption{Simple Figure. \cite[based on][]{mwe}}
+  \caption{Simple Figure. \cite[based on][]{memory_polynomial}}
   \label{fig:simple}
 \end{figure}
 
@@ -348,7 +380,7 @@ public class Hello {
   \caption{Simple Table}
   \label{tab:simple}
   \centering
-  \begin{tabular}{ll}
+  \begin{tabular}{@{}ll@{}}
     \toprule
     Heading1 & Heading2 \\
     \midrule
@@ -357,6 +389,29 @@ public class Hello {
     \bottomrule
   \end{tabular}
 \end{table}
+
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\State $i \gets \text{Block Index}$  	
+		\State $n \gets \text{Thread Index}$
+		\State \textbf{load} $\boldsymbol \beta^{(i)}$ from constant memory
+		\State $m = 0; p = 1;$ \Comment{Memory and polynomial indexes}
+		\For{$m<M$} \Comment{Loop over memory depth}
+		\State $y \gets x^{(i)}(n-m)$ \Comment{Loaded from global memory}
+		\State $\mathbf{z}[m] = y$ 
+		\State $a = |y|^2$
+		\State $b = y \cdot a$
+		\For{$p<=P$}
+		\State $\mathbf{z}[pM+m] = b$ 
+		\State $b = b \cdot a$
+		\EndFor 
+		\EndFor
+		\State $\hat{x}^{(i)}(n) = \mathbf{z} \cdot \boldsymbol \beta^{(i)}$ 	
+		\State \textbf{return} $\hat{x}^{(i)}(n)$
+	\end{algorithmic} 
+	\caption{Example Algorithm }
+	\label{ker:1}
+\end{algorithm}
 
 cref Demonstration: Cref at beginning of sentence, cref in all other cases.
 
@@ -385,6 +440,8 @@ The symbol for powerset is now correct: $\powerset$ and not a Weierstrass p ($\w
 You can now write words containing hyphens which are hyphenated (application"=specific) at other places.
 This is enabled by an additional configuration of the babel package.
 In case you write \enquote{application-specific}, then the word will only be hyphenated at the dash.
+
+\input{figs/nn.tex}
 
 \section{Lorem ipsum}
 \label{sec:loremipsum}
@@ -425,9 +482,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
-\bibliography{paper}
+\bibliography{refs}
 
-\ \\ % empty line after bibliogpraphy and that statement
-All links were followed on April 18, 2018.
 
 \end{document}
