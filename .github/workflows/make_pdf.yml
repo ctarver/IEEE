@@ -9,10 +9,10 @@ jobs:
       - name: Compile paper-conference.tex
         uses: dante-ev/latex-action@master
         with:
-          root_file: main.tex
+          root_file: paper/main.tex
           compiler: pdflatex
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          path: main.pdf
+          path: paper/main.pdf
         if: always()          
