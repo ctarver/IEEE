@@ -6,14 +6,15 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+      - name: Change Directory
+        run: cd paper
       - name: Compile paper-conference.tex
         uses: dante-ev/latex-action@master
         with:
           root_file: main.tex
           compiler: pdflatex
-          working-directory: paper/
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          path: paper/main.pdf
+          path: main.pdf
         if: always()          
