@@ -9,8 +9,9 @@ jobs:
       - name: Compile paper-conference.tex
         uses: dante-ev/latex-action@master
         with:
-          root_file: paper/main.tex
+          root_file: main.tex
           compiler: pdflatex
+          working-directory: paper/
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
