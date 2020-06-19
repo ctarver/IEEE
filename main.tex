@@ -19,6 +19,11 @@
 \usetikzlibrary{shapes.geometric, arrows, dsp, chains}
 \def\layersep{1.5cm}
 
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{dateplot}
+
 % for demonstration purposes
 \usepackage{mwe}
 
@@ -309,6 +314,12 @@ There is an equation in \eqref{eq:mp}.
 
 Winery~\cite{2019_mikkogpu} is a graphical \commentontext{modeling}{modeling with one \enquote{l}, because of AE} tool.
 The whole idea of TOSCA is explained by \citet{memory_polynomial}.
+
+\begin{figure}
+	\input{figs/example_tikz}
+	\caption{Example spectrum for the $M=4$ polynomial and $K=1$ \ac{NN}. Each of these use around 80 multiplications per time-domain input sample to the \ac{DPD}.}
+	\label{fig:psd}
+\end{figure}
 
 \blindtext[5]
 

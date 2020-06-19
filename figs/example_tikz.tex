@@ -1,0 +1,130 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+reverse legend,
+width=6.8cm,height=4.8cm,
+scale only axis,
+xmin=0,
+xmax=125,
+xmajorgrids,
+ymajorgrids,
+axis background/.style={fill=white},
+xlabel={Number of Real Multiplications},
+ylabel={EVM (\%)},
+legend style={legend cell align=left, align=left, draw=white!15!black, font=\small},
+every axis plot/.append style={thick}
+]
+
+\addplot [color=m4, mark=*, mark options={solid,m4}]
+table[row sep=crcr]{%
+	12	3.0103\\
+	28	2.7322\\
+	45	2.3089\\
+	63	2.0085\\
+	82	1.9722\\
+	102	1.95\\
+	123	1.9552\\
+};
+\addlegendentry{$M=4$}
+
+
+\addplot [color=m2, mark=*, mark options={solid,m2}]
+table[row sep=crcr]{%
+	6	3.0388192857864\\
+	16	2.73656091785756\\
+	27	2.3154671075041\\
+	39	2.00375004718572\\
+	52	1.95769885368691\\
+	66	1.95947582666292\\
+	81	1.95781082858679\\
+};
+\addlegendentry{$M=2$}
+
+\addplot [color=m1, mark=*, mark options={solid, m1}]
+table[row sep=crcr]{%
+	3	3.0375\\
+	10	2.751\\
+	18	2.3392\\
+	27	2.0256\\
+	37	1.9577\\
+	48	1.9814\\
+	60	1.9837\\
+};
+\addlegendentry{$M=1$}
+
+\iffalse
+\addplot [color=m4pq, mark=*, mark options={solid,m4pq}]
+table[row sep=crcr]{%
+	36	3.0017\\
+	68	2.7291\\
+	102	2.3122\\
+	138	1.9902\\
+	176	1.9802\\
+	216	1.9539\\
+	258	1.9442\\
+};
+\addlegendentry{$M=4; Q=P$}
+\fi
+
+\addplot [color=nn2, mark=diamond*, mark options={solid,nn2}]
+table[row sep=crcr]{%
+	5 	2.9797\\	% 1 
+	12	2.9095\\	%2
+	21	2.9732\\	%3
+	32	2.2891\\	%4
+	45	2.1186\\
+	60	 1.9872\\
+	77	1.9063\\
+	96 	1.9166\\
+};
+\addlegendentry{$K=2$}
+
+\addplot [color=nn, mark=diamond*, mark options={solid, nn}]
+table[row sep=crcr]{%
+	4	2.9454\\ 	% 1 neuron
+	8	2.7549\\ 	% 2 neurons
+	12	2.7357\\ 	% 3 neurons
+	16	2.5547\\ 	% 4
+	20	2.3683\\ 	 	% 5
+	24	2.3100\\	% 6
+	28	2.3016\\	% 7
+	32	2.2198\\	% 8
+	36	2.2257\\	% 9
+	40	2.1936\\	% 10
+	44	2.1394\\	% 11
+	48	2.1122\\	% 12
+	52	2.1786\\	% 13
+	56	1.99\\
+	60	2.1192\\
+	64	2.0156\\
+	68	 1.9999\\
+	72	2.0352\\
+	76	1.9212\\
+	80	1.9245\\
+	100	1.8835\\%	120	 1.9237\\
+	124	1.9584\\
+	240	 1.8988\\
+};
+\addlegendentry{$K=1$}
+
+\addplot [mark=star, mark size=5pt, mark options={solid,nn}, forget plot]
+coordinates {(24,	2.310)};
+\addplot [mark=star, mark size=5pt, mark options={solid,m1}, forget plot]
+coordinates {(27, 	2.0256)};
+
+\addplot [mark=star, mark size=5pt, mark options={solid,nn}, forget plot]
+coordinates {(56, 1.99)};
+\addplot [mark=star, mark size=5pt, mark options={solid,m2}, forget plot]
+coordinates {(66, 1.95947582666292)};
+
+
+\end{axis}
+\end{tikzpicture}%
