@@ -11,7 +11,7 @@ jobs:
         with:
           working_directory: paper/
           root_file: main.tex
-          compiler: pdflatex
+          compiler: latexmk
       - name: Upload
         uses: actions/upload-artifact@v2 
         with:
