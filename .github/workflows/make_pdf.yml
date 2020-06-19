@@ -13,7 +13,8 @@ jobs:
           root_file: main.tex
           compiler: pdflatex
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2 
         with:
+          name: main
           path: paper/main.pdf
         if: always()          
