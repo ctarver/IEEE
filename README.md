@@ -1,4 +1,5 @@
-# My IEEE Template.
+# My IEEE Template. 
+![Build with pdflatex](https://github.com/ctarver/IEEE/workflows/Build%20with%20pdflatex/badge.svg)
 This repo is based on [this](https://github.com/latextemplates/IEEE)
 
 ##  Features
